@@ -1,0 +1,181 @@
+{% extends 'base/base.html' %}
+{% block title %}
+{% if property.id %} Edit Property{% else %} Post Property {% endif %}
+{% endblock %}
+{% block content %}
+<section class="property-form" >
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3> Property Details</h3>
+<!--        <div class="box">-->
+<!--            <p>{{ form.name.label }} {%if form.name.required %} <span style="color: red;">*</span>{% endif %}</p>-->
+<!--            {{ form.name }}-->
+<!--        </div>-->
+       <div class="flex">
+        {% for f in form %}
+         <div class="box">
+            <p>{{ f.label }} {%if f.field.required %} <span style="color: red;">*</span>{% endif %}</p>
+            {{ f }}
+         </div>
+        {% endfor %}
+       </div>
+        <div>
+            <hr style="color: black; margin: 15px 15px;">
+        </div>
+        <div class="checkbox">
+          {% with named_formsets.services as formsets %}
+          {{ formsets.management_form }}
+          {%for services in formsets %}
+          {{ services.management_form }}
+          <div class="box">
+        <h4 style="font-size: 20px;"> What features do have the building?</h4>
+
+             {% for field in services.visible_fields %}
+          <p>{{ field }} {{ field.label }}</p>
+          {% endfor %}
+          </div>
+          {% endfor %}
+          {% endwith %}
+           {% with named_formsets.nearby as formsets %}
+            {{ formsets.management_form }}
+            {%for nearby in formsets %}
+            {{ nearby.management_form }}
+            <div class="box">
+                <h4> What buildings have here nearby?</h4>
+                {% for field in nearby.visible_fields %}
+              <p>{{ field }} <label for="{{ field.field. }}">{{ field.label }} </label></p>
+          {% endfor %}
+          </div>
+          {% endfor %}
+          {% endwith %}
+       </div>
+       <div class="flex">
+          {% with named_formsets.images as formset %}
+          {{ formset.management_form }}
+           {% for e in formset.non_form_errors %}
+           <span style="color: red;"> {{ e }}</span>
+           {% endfor %}
+          {% for image in formset %}
+           {{ image.management_form }}
+           <div class="box" id="item-{{ forloop.counter }}">
+           {{ image.id }}
+               <p> image-{{ forloop.counter }}</p>
+               <div class="flex">
+                   {% for field in image.visible_fields %}
+                   <div class="box">
+                       {{ field }}
+                   </div>
+                   {% endfor %}
+               </div>
+           </div>
+          {% endfor %}
+          {% endwith %}
+       </div>
+       <a href="#" class="add-images">Add more</a>
+        <div class="flex">
+         <input type="submit" class="box btn"  value="Publish" name="publish">
+          <input type="submit" class="box btn disabled" style="background: #999;" value="Drift to save" name="save">
+       </div>
+    </form>
+</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+    //when user clicks add more btn of images
+    $('.add-images').click(function(ev) {
+        ev.preventDefault();
+        var count = $('#item-images').children().length;
+        var tmpMarkup = $('#images-template').html();
+        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+        $('#item-images').append(compiledTmpl);
+        // update form count
+        $('#id_images-TOTAL_FORMS').attr('value', count+1);
+    });
+})
+</script>
+{% endblock %}
+         <div class="box">
+            <p>offer type <span>*</span></p>
+            <select name="offer" required class="input">
+               <option value="sale">sale</option>
+               <option value="resale">resale</option>
+               <option value="rent">rent</option>
+            </select>
+         </div>
+         <div class="box">
+            <p>property type <span>*</span></p>
+            <select name="type" required class="input">
+               <option value="flat">flat</option>
+               <option value="house">house</option>
+               <option value="shop">shop</option>
+            </select>
+         </div>
+         <div class="box">
+            <p>property status <span>*</span></p>
+            <select name="status" required class="input">
+               <option value="ready to move">listed</option>
+               <option value="under construction">sold</option>
+               <option value="under construction">pending</option>
+            </select>
+         </div>
+         <div class="box">
+            <p>how many BHK <span>*</span></p>
+            <select name="bhk" required class="input">
+               <option value="1">1 BHK</option>
+
+            </select>
+         </div>
+         <div class="box">
+            <p>how many bedrooms <span>*</span></p>
+            <select name="bedroom" required class="input">
+               <option value="0">0 bedroom</option>
+               <option value="1" selected>1 bedroom</option>
+
+            </select>
+         </div>
+         <div class="box">
+            <p>how many bathrooms <span>*</span></p>
+            <select name="bathroom" required class="input">
+               <option value="1">1 bathroom</option>
+
+            </select>
+         </div>
+         <div class="box">
+            <p>how many balconys <span>*</span></p>
+            <select name="balcony" required class="input">
+               <option value="0">0 balcony</option>
+               <option value="1">1 balcony</option>
+
+            </select>
+         </div>
+         <div class="box">
+            <p>carpet area <span>*</span></p>
+            <input type="number" name="carpet" required min="1" max="9999999999" maxlength="10" placeholder="how many squarefits?" class="input">
+         </div>
+
+      <div class="box">
+         <p>image 01 <span>*</span></p>
+         <input type="file" name="image_01" class="input" accept="image/*" required>
+      </div>
+      <div class="flex">
+         <div class="box">
+            <p>image 02</p>
+            <input type="file" name="image_02" class="input" accept="image/*">
+         </div>
+         <div class="box">
+            <p>image 03</p>
+            <input type="file" name="image_03" class="input" accept="image/*">
+         </div>
+         <div class="box">
+            <p>image 04</p>
+            <input type="file" name="image_04" class="input" accept="image/*">
+         </div>
+         <div class="box">
+            <p>image 05</p>
+            <input type="file" name="image_05" class="input" accept="image/*">
+         </div>
+      </div>
+      <input type="submit" value="post property" class="btn" name="post">
+   </form>
+
+</section>
