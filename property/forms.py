@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 from django.forms import inlineformset_factory
 
+
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
@@ -36,7 +37,7 @@ class PropertyForm(forms.ModelForm):
         }
 
 
-ImageInlineForm = inlineformset_factory(Property, Image, form=ImageForm, extra=3, max_num=7, min_num=1, can_delete=False, can_delete_extra=True)
-ServiceInlineForm = inlineformset_factory(Property, Service, fields='__all__', extra=1, can_delete=False, can_delete_extra=True)
-NearbyInlineForm = inlineformset_factory(Property, Nearby, fields='__all__', extra=1, can_delete=False, can_delete_extra=True)
+ImageInlineFormset = inlineformset_factory(Property, Image, form=ImageForm, extra=3, max_num=7, min_num=1, can_delete=False, can_delete_extra=True)
+ServiceInlineFormset = inlineformset_factory(Property, Service, fields='__all__', extra=1, can_delete=False, can_delete_extra=True)
+NearbyInlineFormset = inlineformset_factory(Property, Nearby, fields='__all__', extra=1, can_delete=False, can_delete_extra=True)
 

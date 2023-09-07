@@ -1,7 +1,43 @@
 {% extends 'base/base.html' %}
 {% block title %} Property {% endblock %}
 {% block content %}
+<section class="listings">
+    <h1 class="heading"> all listings</h1>
+    <div class="box-container">
+        {% for post in object_list %}
+        <div class="box">
+           <div class="admin">
+              <h3> j {{ post.created_by }} </h3>
+              <div>
+                 <p>john deo {{ post.owner }}</p>
+                 <span> {{ post.created_at }}</span>
+              </div>
+           </div>
+           <div class="thumb">
+              <p class="total-images"><i class="far fa-image"></i><span>4</span></p>
+              <p class="type"><span>house </span><span>sale</span></p>
+              <form method="post" class="save">
+                 {% csrf_token %}
+                 <button type="submit" name="save" class="far fa-heart"></button>
+              </form>
+              <img src="" />
+           </div>
+              <h3 class="name"> {{ post.name }} </h3>
+              <p class="location"><i class="fas fa-map-marker-alt"></i><span> {{ post.location }} </span></p>
+              <div class="flex">
+                 <p><i class="fas fa-bed"></i>number of bedroom </p>
+                 <p><i class="fas fa-bath"></i>number of bathroom </p>
+                 <p><i class="fas fa-maximize"></i> 60 x 40 </p>
+              </div>
+              <a href="{{ post.get_absolute_url }}" class="btn"> View property</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
     {% for post in object_list %}
         {{ post }}
     {% endfor %}
 {% endblock%}
+
+
+

@@ -7,18 +7,19 @@
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
     <link type="text/css" rel="stylesheet" href="{% static 'property/css/style.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'property/css/listingstyle.css' %}" />
+
 </head>
-<body>
 <header>
 {% block header %}
 {% endblock %}
+</header>
+<body>
     {% if messages %}
     {% for message in messages %}
         {{ message }}
     {% endfor %} {% endif %}
     {% block content %}
     {% endblock %}
-</header>
 </body>
 </html>
-

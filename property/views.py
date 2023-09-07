@@ -18,25 +18,25 @@ class PropertyCreateView(CreateView):
     def get_named_formsets(self):
         if self.request.method == "GET":
             named = {
-                'services': ServiceInlineForm(prefix='services'),
-                'nearby': NearbyInlineForm(prefix='nearby'),
-                'images': ImageInlineForm(prefix='images'),
+                'services': ServiceInlineFormset(prefix='services'),
+                'nearby': NearbyInlineFormset(prefix='nearby'),
+                'images': ImageInlineFormset(prefix='images'),
             }
-            print(named)
+            print(named.keys())
             return named
         else:
             return {
-                'services': ServiceInlineForm(self.request.POST or None, self.request.FILES or None, prefix='services'),
-                'nearby': ServiceInlineForm(self.request.POST or None, self.request.FILES or None, prefix='nearby'),
-                'images': ServiceInlineForm(self.request.POST or None, self.request.FILES or None, prefix='images'),
+                'services': ServiceInlineFormset(self.request.POST, self.request.FILES, prefix='services'),
+                'nearby': NearbyInlineFormset(self.request.POST, self.request.FILES, prefix='nearby'),
+                'images': ImageInlineFormset(self.request.POST, self.request.FILES or None, prefix='images'),
             }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['named_formsets'] = self.get_named_formsets()
-        context['img_formset'] = self.ImageInlineFormset()
-        context['service_formset'] = self.ServiceInlineFormset()
-        context['nearby_formset'] = self.NearbyInlineFormset()
+        # context['img_formset'] = ImageInlineFormset()
+        # context['service_formset'] = ServiceInlineFormset()
+        # context['nearby_formset'] = NearbyInlineFormset()
         return context
 
     def formset_images_valid(self, formset):
@@ -46,30 +46,32 @@ class PropertyCreateView(CreateView):
         # for obj in formset.deleted_objects:
         #     obj.delete()
 
-        for obj in formset.deleted_objects:
-            obj.delete()
         for img in images:
             img.property = self.object
             img.save()
 
     def formset_services_valid(self, formset):
         services = formset.save(commit=False)
-        for obj in formset.deleted_objects:
-            obj.delete()
+
         for service in services:
+            print(service)
             service.property = self.object
             service.save()
 
     def formset_nearby_valid(self, formset):
         buildings = formset.save(commit=False)
 
+        print('formset_nearby_valid is valid')
+
         # add this 2 lines, if you have can_delete=True
         # for obj in formset.deleted_objects:
         #     obj.delete()
 
-        for building in buildings:
-            building.property = self.object
-            building.save()
+        for nearby in buildings:
+            print(nearby)
+            nearby.property = self.object
+            nearby.save()
+            print('YES saved')
 
     def form_valid(self, form):
         named_formsets = self.get_named_formsets()
@@ -77,9 +79,16 @@ class PropertyCreateView(CreateView):
             messages.add_message(self.request, messages.ERROR, "Form or Formset was invalid.")
             return self.render_to_response(self.get_context_data(form=form))
         self.object = form.save()
+
         for name, formset in named_formsets.items():
+            print(f"{name}: {formset}")
             formset_save_func = getattr(self, 'formset_{0}_valid'.format(name), None)
             print(formset_save_func)
+            import os
+            if os.path.exists("pretest.html"):
+                os.remove("pretest.html")
+            with open("pretest.html", "w") as f:
+                f.write(str(formset))
             if formset_save_func is not None:
                 formset_save_func(formset)
             else:
@@ -96,3 +105,4 @@ class PropertyListView(ListView):
 
 class PropertyDetailView(DetailView):
     model = Property
+    template_name = 'property/post_detail.html'
