@@ -17,10 +17,15 @@ class ImageForm(forms.ModelForm):
 
 
 class PropertyForm(forms.ModelForm):
+    BedroomSelection = ((i, f'{i} Bedroom') for i in range(1, 10))
+    BathroomSelection = ((i, f"{i} Bathroom") for i in range(1, 10))
 
+    bedroom = forms.ChoiceField(choices=BedroomSelection, required=False)
+    bathroom = forms.ChoiceField(choices=BathroomSelection, required=False)
     class Meta:
         model = Property
-        fields = ['name', 'address', 'price', 'google_map']
+        fields = '__all__'
+        exclude = ['created_at']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'input',
@@ -33,7 +38,32 @@ class PropertyForm(forms.ModelForm):
             }),
             'google_map': forms.TextInput(attrs={
                 'class': 'input',
-            })
+            }),
+            'square_feet': forms.TextInput(attrs={
+                'class': 'input',
+                'placeholder': 'eg. 60 x 40'
+            }),
+            'city': forms.TextInput( attrs={
+                'class': 'input'
+            }),
+            'type': forms.TextInput(attrs={
+                'class': 'input',
+
+            }),
+            'status': forms.TextInput(attrs={
+                'class': 'input',
+            }),
+            'owner': forms.TextInput(attrs={
+                'class': 'input',
+            }),
+            'bedroom': forms.TextInput(attrs={
+                'class': 'input',
+            }),
+            'bathroom': forms.TextInput(attrs={
+                'class': 'input',
+            }),
+
+
         }
 
 

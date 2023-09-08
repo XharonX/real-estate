@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<nav class="navbar nav-1">
+  <section class="flex">
+    <a href="{% url 'home' %}" class="logo"><i class="fas fa-house"></i>LogoName</a>
+    <ul>
+      <li><a href="#">post property <i class="fas fa-paper-plane"></i></a></li>
+    </ul>
+  </section>
+</nav>
+<nav class="navbar nav-2">
+  <section class="flex">
+    <div id="menu-btn" class="fas fa-bars"></div>
+    <div class="menu">
+      <ul>
+        <li><a href="#">buy<i class="fas f-angle-down"></i></a>
+          <ul>
+            {% for type in "house" %}
+            <li><a href="#">{{ type }}</a> </li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li><a href="#">sell<i class="fas fa-angle-down"></i> </a>
+          <ul>
+            <li><a href="#">post property</a></li>
+            <li><a href="#">dashboard</a></li>
+          </ul>
+        </li>
+        <li><a href="#">rent<i class="fas fa-angle-down"></i> </a>
+          <ul>
+            <li><a href="#">house</a></li>
+            <li><a href="#">shop</a></li>
+            <li><a href="#">office</a></li>
+            <li><a href="#">land</a></li>
+          </ul>
+        </li>
+        <li><a href="#">help<i class="fas fa-angle-down"></i> </a>
+          <ul>
+            <li><a href="#">about us</a></li>
+            <li><a href="#">contact us</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <ul>
+      <li><a href="#">saved <i class="fas fa-heart"></i> </a> </li>
+      <li><a href="#">account <i class="fas fa-heart"></i> </a>
+      <ul>
+        <li><a href="">login</a> </li>
+        <li><a href="">register</a> </li>
+      </ul></li>
+    </ul>
+  </section>
+</nav>

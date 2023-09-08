@@ -24,16 +24,7 @@
         <div class="checkbox">
           {% with named_formsets.services as formsets %}
           {{ formsets.management_form }}
-            <script type="text/html" id="services-template">
-                <div id="services-__prefix__" class="hide_all">
-            {% for fields in formset.empty_form.hidden_fields %}
-                {{ fields }}
-            {% endfor %}
-            {% for fields in formset.empty_form.visible_fields %}
-                {{ fields }}
-            {% endfor %}
-                </div>
-            </script>
+
           {% for services in formsets %}
           {{ services.management_form }}
           <div class="box">
@@ -47,16 +38,7 @@
           {% endwith %}
           {% with named_formsets.nearby as formsets %}
           {{ formsets.management_form }}
-            <script type="text/html" id="nearby-template">
-                <div id="nearby-__prefix__" class="hide_all">
-            {% for fields in formset.empty_form.hidden_fields %}
-                {{ fields }}
-            {% endfor %}
-            {% for fields in formset.empty_form.visible_fields %}
-                {{ fields }}
-            {% endfor %}
-                </div>
-            </script>
+
           {%for nearby in formsets %}
           {{ nearby.management_form }}
           <div class="box">
@@ -71,16 +53,6 @@
        <div class="flex">
           {% with named_formsets.images as formset %}
           {{ formset.management_form }}
-           <script type="text/html" id="images-template">
-                <div id="images-__prefix__" class="hide_all">
-            {% for fields in formset.empty_form.hidden_fields %}
-                {{ fields }}
-            {% endfor %}
-            {% for fields in formset.empty_form.visible_fields %}
-                {{ fields }}
-            {% endfor %}
-                </div>
-            </script>
            {% for e in formset.non_form_errors %}
            <span style="color: red;"> {{ e }}</span>
            {% endfor %}

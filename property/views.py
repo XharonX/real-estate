@@ -106,3 +106,26 @@ class PropertyListView(ListView):
 class PropertyDetailView(DetailView):
     model = Property
     template_name = 'property/post_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.object = self.get_object()
+        images = self.object.image_set.all()
+        feature_services = ['lift', 'water_supply', 'garden', 'play_ground', 'power_backup', 'security_guard']
+        near_buildings = ['school', 'hospital', 'market', 'mall', 'gym', 'parking']
+        print(self.object.service.__dict__)
+
+        context['services'] = self.get_feature_dict('service', feature_services)
+        context['nearby_buildings'] = self.get_feature_dict('nearby', near_buildings)
+        context['images'] = images
+        return context
+
+    def get_feature_dict(self, feature_property: str, features: list):
+        f = list()
+        obj = getattr(self.object, feature_property)
+        for feature in features:
+            f.append({
+                'label': feature.replace('_', ' '),
+                'is_active': getattr(obj, feature),
+            })
+        return f

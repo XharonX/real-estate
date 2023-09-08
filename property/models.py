@@ -32,16 +32,16 @@ class Property(models.Model):
     name = models.CharField(_("name"), max_length=200)
     owner = models.CharField(_('owner'), max_length=50, blank=True)
     type = models.PositiveSmallIntegerField(_('property type'), choices=PropertyType.choices, default=PropertyType.home)
-    status = models.PositiveSmallIntegerField(_('property type'), choices=PropertyStatus.choices, default=PropertyStatus.listed)
-    address = models.CharField(_('address'), max_length=300)
+    status = models.PositiveSmallIntegerField(_('status'), choices=PropertyStatus.choices, default=PropertyStatus.listed)
     city = models.CharField(_('city'), max_length=8, choices=City.choices, blank=False, null=True)
     google_map = models.URLField(_('google_map'), max_length=400)
     square_feet = models.CharField(_('square feet'), max_length=10, blank=False)
     price = models.IntegerField()
     bedroom = models.PositiveSmallIntegerField(_('How many do bedroom have?'), default=0)
     bathroom = models.PositiveSmallIntegerField(_('How many do bathroom have?'), default=0)
+    address = models.CharField(_('address'), max_length=300)
     created_at = models.DateTimeField(auto_created=True, auto_now_add=True)
-
+    # description = models.TextField()
     def __str__(self):
         return self.name
 

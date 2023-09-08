@@ -1,6 +1,84 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block title %} {{ object.name }} {% endblock %}
 
 {% block content %}
+<section class="view-property">
+   <div class="details">
+      <div class="thumb">
 
+         <div class="big-image">
+            <img src="{{ object.image_set.first.image.url }}" alt="">
+         </div>
+         <div class="small-images">
+            {% for image in images %}
+            <img src="{{ image.image.url }}" alt="{{ image.caption }}" />
+            {% endfor %}
+         </div>
+      </div>
+      <h3 class="name">{{ object.name }}</h3>
+      <p class="location"><i class="fas fa-map-marker-alt"></i><span>{{ object.address }} andheri, mumbai, india - 400104</span></p>
+      <div class="info">
+         <p><i class="fas fa-tag"></i><span>{{ object.price }} lac</span></p>
+         <p><i class="fas fa-user"></i><span>john deo (owner)</span></p>
+         <p><i class="fas fa-phone"></i><a href="tel:1234567890">1234567890</a></p>
+         <p><i class="fas fa-building"></i><span>{{ object.type.human_readible }}</span></p>
+         <p><i class="fas fa-house"></i><span>{{ object.status }}</span></p>
+         <p><i class="fas fa-calendar"></i><span>{{ object.created_at|date:"d-m-Y" }}</span></p>
+      </div>
+      <div class="wrapped">
+         <h3 class="title">details</h3>
+         <div class="flex">
+            <div class="box">
+               <p><i>rooms :</i><span>2 BHK</span></p>
+               <p><i>deposit amount :</i><span>0</span></p>
+               <p><i>status :</i><span>ready to move</span></p>
+               <p><i>bedroom :</i><span>3</span></p>
+               <p><i>bathroom :</i><span>2</span></p>
+               <p><i>balcony :</i><span>1</span></p>
+            </div>
+            <div class="box">
+               <p><i>carpet area :</i><span>750sqft</span></p>
+               <p><i>age :</i><span>3 years</span></p>
+               <p><i>room floor :</i><span>3</span></p>
+               <p><i>total floors :</i><span>22</span></p>
+               <p><i>furnished :</i><span>semi-furnished</span></p>
+               <p><i>loan :</i><span>available</span></p>
+            </div>
+         </div>
+      </div>
+      <div class="wrapped">
+         <h3 class="title">amenities</h3>
+         <div class="flex">
+            <div class="box">
+               {% for service in services %}
+               <p {% if service.is_active %} class="active">
+                  <i class="fas fa-check"></i>
+                  {% else %}><i class="fas fa-times"></i>{% endif %}
+                  {{ service.label }} </p>
+               {% endfor %}
+            </div>
+            <div class="box">
+               {% for nearby in nearby_buildings %}
+               <p {% if nearby.is_active %} class="active">
+                  <i class="fas fa-check"></i>
+                  {% else %}><i class="fas fa-times"></i>{% endif %}
+                  {{ nearby.label }} </p>
+               {% endfor %}
+            </div>
+         </div>
+      </div>
+      <div class="wrapped">
+         <h3 class="title">description</h3>
+         <p class="description">
+            {{ object.description }}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum cupiditate aliquid ipsum recusandae maxime nisi, velit eaque, libero, exercitationem culpa accusamus. Neque dolor quaerat modi saepe facere dignissimos temporibus molestias.
+         </p>
+      </div>
+      <form action="" method="post">
+         <input type="submit" value="save property" name="save" class="inline-btn">
+      </form>
+   </div>
+
+</section>
 {% endblock %}
