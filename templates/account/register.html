@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% block title %} Register {% endblock %}
+
+{% block content %}
+<section class="form-container">
+    <div class="form" style="margin-top: 5vh; padding: 15rem;">
+        <h3> အကောင့်အသစ် ဖောက်ရန်! </h3>
+        <a class="btn" href="{% url 'agency-register' %}"> အေးဂျင်စီ အကောင့်ဖောက်ရန် </a>
+        <a class="btn" href="{% url 'owner-register' %}"> အိမ်ပိုင်ရှင်ကိုယ်ပိုင် အကောင့်လုပ်ရန် </a>
+        <a class="btn" href="{% url 'client-register' %}"> ပုံမှန်အကောင့် လုပ်ရန် </a>
+    </div>
+
+<!--        <a class="btn" href="{# url 'agency-register' #}"> Create advertiser account </a>-->
+</section>
+{% endblock %}
+
+<section class="form-container">
+
+<section class="form-container">
+    <div class="form" style="margin-top: 5vh; padding: 15rem;">
+        <h3> create new account </h3>
+        <a class="btn" href="{% url 'agency-register' %}"> agency account </a>
+        <a class="btn" href="{% url 'owner-register' %}"> property owner account </a>
+        <a class="btn" href="{% url 'client-register' %}"> normal user account </a>
+    </div>
+
+<!--        <a class="btn" href="{# url 'agency-register' #}"> Create advertiser account </a>-->
+</section>

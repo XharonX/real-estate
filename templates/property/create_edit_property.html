@@ -27,8 +27,10 @@
 
           {% for services in formsets %}
           {{ services.management_form }}
+
           <div class="box">
-        <h4 style="font-size: 20px;"> What features do have the building?</h4>
+            <h4> What features do have the building?</h4>
+            <h4 class="text-failure"> ဘယ်လို features မျိုးပါရနိုင်သနည်း?</h4>
 
              {% for field in services.visible_fields %}
           <p>{{ field }} {{ field.label }}</p>
@@ -42,10 +44,11 @@
           {%for nearby in formsets %}
           {{ nearby.management_form }}
           <div class="box">
-        <h4 style="font-size: 20px;"> What buildings have here nearby?</h4>
+            <h4> Which buildings are near there?</h4>
+            <h4 class="text-failure"> အနီးနားရှိ ဆောက်အဦးများ </h4>
              {% for field in nearby.visible_fields %}
-          <p>{{ field }} {{ field.label }}</p>
-          {% endfor %}
+             <p>{{ field }} {{ field.label }}</p>
+             {% endfor %}
           </div>
           {% endfor %}
           {% endwith %}

@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% block title %} Register | Owner {% endblock %}
+
+{% block content %}
+<section class="form-container agency">
+     <form method="post" class="form">
+        {% csrf_token %}
+        {{form.username }}
+        {{form.email }}
+        <div class="flex">
+        {{form.first_name }}
+        {{form.last_name }}
+        </div>
+        <div class="flex address">
+          {{ form.phone }}
+        {{ form.location }}
+        {{ form.address }}
+        </div>
+        <div class="flex">
+          {{ form.password1 }}
+          {{ form.password2 }}
+
+        </div>
+        <input type="submit" value="Sign Up" class="btn">
+    </form>
+</section>
+{% endblock %}

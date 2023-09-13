@@ -2,7 +2,6 @@ from django import forms
 from .models import *
 from django.forms import inlineformset_factory
 
-
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
@@ -20,12 +19,16 @@ class PropertyForm(forms.ModelForm):
     BedroomSelection = ((i, f'{i} Bedroom') for i in range(1, 10))
     BathroomSelection = ((i, f"{i} Bathroom") for i in range(1, 10))
 
-    bedroom = forms.ChoiceField(choices=BedroomSelection, required=False)
-    bathroom = forms.ChoiceField(choices=BathroomSelection, required=False)
+    bedroom = forms.ChoiceField(choices=BedroomSelection, required=False, widget=forms.Select(attrs={
+        'class': 'input'
+    }))
+    bathroom = forms.ChoiceField(choices=BathroomSelection, required=False, widget=forms.Select(attrs={
+        'class': 'input'
+    }))
     class Meta:
         model = Property
         fields = '__all__'
-        exclude = ['created_at']
+        exclude = ['created_at', 'user', ]
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'input',
@@ -43,28 +46,24 @@ class PropertyForm(forms.ModelForm):
                 'class': 'input',
                 'placeholder': 'eg. 60 x 40'
             }),
-            'city': forms.TextInput( attrs={
+            'city': forms.Select( attrs={
                 'class': 'input'
             }),
-            'type': forms.TextInput(attrs={
+            'type': forms.Select(attrs={
                 'class': 'input',
 
             }),
-            'status': forms.TextInput(attrs={
+            'status': forms.Select(attrs={
                 'class': 'input',
             }),
             'owner': forms.TextInput(attrs={
                 'class': 'input',
             }),
-            'bedroom': forms.TextInput(attrs={
+            'purpose': forms.Select(attrs={
                 'class': 'input',
-            }),
-            'bathroom': forms.TextInput(attrs={
-                'class': 'input',
-            }),
-
-
+            })
         }
+        print(fields)
 
 
 ImageInlineFormset = inlineformset_factory(Property, Image, form=ImageForm, extra=3, max_num=7, min_num=1, can_delete=False, can_delete_extra=True)

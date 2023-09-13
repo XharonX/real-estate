@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from user.models import User
 # Create your models here.
 
 
@@ -21,6 +22,11 @@ class Property(models.Model):
         sold = 1, _('Sold')
         rendering = 2, _('Rendering')
 
+    class PropertyPurpose(models.IntegerChoices):
+        sell = 0, _('for sale')
+        rent = 1, _('for rent')
+        buy = 2, _('for buy')
+
     class City(models.TextChoices):
         yangon = 'ygn', _('Yangon')
         mdy = 'mdy', _('Mandalay')
@@ -28,20 +34,23 @@ class Property(models.Model):
         bgo = 'bgo', _('Bago')
 
     #     Here That will be added more state or city
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, )
     name = models.CharField(_("name"), max_length=200)
     owner = models.CharField(_('owner'), max_length=50, blank=True)
-    type = models.PositiveSmallIntegerField(_('property type'), choices=PropertyType.choices, default=PropertyType.home)
-    status = models.PositiveSmallIntegerField(_('status'), choices=PropertyStatus.choices, default=PropertyStatus.listed)
+    purpose = models.PositiveSmallIntegerField(_('for what?'), choices=PropertyPurpose.choices, blank=False)
+    type = models.PositiveSmallIntegerField(_('property type'), choices=PropertyType.choices, blank=False)
+    status = models.PositiveSmallIntegerField(_('status'), choices=PropertyStatus.choices, )
     city = models.CharField(_('city'), max_length=8, choices=City.choices, blank=False, null=True)
-    google_map = models.URLField(_('google_map'), max_length=400)
+    google_map = models.URLField(_('google map'), max_length=400)
     square_feet = models.CharField(_('square feet'), max_length=10, blank=False)
     price = models.IntegerField()
     bedroom = models.PositiveSmallIntegerField(_('How many do bedroom have?'), default=0)
     bathroom = models.PositiveSmallIntegerField(_('How many do bathroom have?'), default=0)
     address = models.CharField(_('address'), max_length=300)
     created_at = models.DateTimeField(auto_created=True, auto_now_add=True)
-    # description = models.TextField()
+    description = models.TextField(blank=True)
+    wishlist = models.ManyToManyField(User, related_name='wishlist_properties', related_query_name='wishlist')
+
     def __str__(self):
         return self.name
 

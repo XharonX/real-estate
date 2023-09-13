@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% block title %} Login | Your app {% endblock %}
+
+{% block content %}
+<section class="form-container">
+   <form action="" method="post">
+      <h3>welcome back!</h3>
+      {% csrf_token %}
+        {% for f in form %}
+        {{ f }}
+        {% endfor %}
+      <p>don't have an account? <a href="{% url 'register' %}">register new</a></p>
+      <input type="submit" value="login now" name="submit" class="btn">
+   </form>
+</section>
+{% endblock %}
